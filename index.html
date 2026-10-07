@@ -65,7 +65,8 @@ nav a,nav button{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform
 nav a::before,nav button::before{content:"";position:absolute;left:-10px;top:50%;width:5px;height:5px;margin-top:-2.5px;background:var(--accent);transform:scale(0);transition:transform .2s var(--pop)}
 nav a:hover,nav button:hover{color:var(--fg)}
 nav a:hover::before,nav button:hover::before{transform:scale(1)}
-.right{display:flex;justify-content:flex-end;align-items:center;gap:18px}
+.right{display:flex;justify-content:flex-end;align-items:center;gap:18px;min-width:0}
+.right .clock{text-align:right;max-width:32ch;line-height:1.35}
 .switch{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:none;border:1px solid var(--line);padding:7px 10px;cursor:pointer;display:flex;gap:8px;align-items:center;transition:border-color .2s,background .2s}
 .switch:hover{border-color:var(--accent)}
 .switch kbd{font:600 10px/1 var(--mono);border:1px solid var(--line);padding:3px 5px;border-radius:3px;background:var(--solid)}
@@ -242,7 +243,6 @@ td code{font:13px var(--mono);color:var(--accent)}
       <button id="openCA" type="button" data-cur="OPEN">$CAST</button>
     </nav>
     <div class="right">
-      <span class="lbl clock tnum" id="clock">--:-- SINGAPORE</span>
       <button class="switch" id="lights" type="button" data-cur="FLIP" aria-pressed="false"><span id="lightsTxt">Lights out</span><kbd>SHIFT</kbd></button>
     </div>
   </div>
@@ -755,8 +755,7 @@ addEventListener('keyup',e=>{if(e.key!=='Shift'||!shiftAlone)return;shiftAlone=f
 /* ---------- clocks + counters ---------- */
 const t0=Date.now();let casts=0;
 G.onCast=()=>{casts++;$('casts').textContent=String(casts).padStart(3,'0')};
-const fmt=new Intl.DateTimeFormat('en-US',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Singapore'});
-function tick(){const s=((Date.now()-t0)/1000)|0;$('elapsed').textContent=String((s/60)|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');try{$('clock').textContent=fmt.format(new Date())+' SINGAPORE'}catch(e){}}
+function tick(){const s=((Date.now()-t0)/1000)|0;$('elapsed').textContent=String((s/60)|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 tick();setInterval(tick,1000);
 
 /* ---------- frame loop for page layers ---------- */
